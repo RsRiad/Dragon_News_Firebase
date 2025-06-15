@@ -1,15 +1,25 @@
-import React, { use } from 'react';
-import { Link } from 'react-router';
-import { AuthContext } from '../provider/AuthProvider';
+import React, { use } from "react";
+import { Link, Links } from "react-router";
+import { AuthContext } from "../provider/AuthProvider";
 
 
 const Login = () => {
-    const {loginUser}=use(AuthContext);
+  const { loginUser, setUser } = use(AuthContext);
   const handleLogin = (e) => {
     e.preventDefault();
-    const email=e.target.email.value;
-    const password=e.target.password.value;
-    loginUser(email ,password);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    loginUser(email, password)
+      .then((userCredential) => {
+        
+        setUser(userCredential.user);
+        
+        alert("Login Done!");
+        
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
     console.log("Login submitted");
   };
 
@@ -24,7 +34,7 @@ const Login = () => {
           <div>
             <label className="block font-medium mb-1">Email address</label>
             <input
-            name='email'
+              name="email"
               type="email"
               placeholder="Enter your email address"
               className="input input-bordered w-full"
@@ -34,19 +44,19 @@ const Login = () => {
           <div>
             <label className="block font-medium mb-1">Password</label>
             <input
-            name='password'
+              name="password"
               type="password"
               placeholder="Enter your password"
               className="input input-bordered w-full"
               required
             />
           </div>
-          <button to='/' type="submit" className="btn btn-neutral w-full">
+          <button to="" type="submit" className="btn btn-neutral w-full">
             Login
           </button>
         </form>
         <p className="text-center text-sm mt-4">
-          Don’t Have An Account?{' '}
+          Don’t Have An Account?{" "}
           <Link to="/auth/register" className="text-red-500 font-semibold">
             Register
           </Link>
