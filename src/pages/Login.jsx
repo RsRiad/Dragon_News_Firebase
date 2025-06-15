@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link } from 'react-router';
+import { AuthContext } from '../provider/AuthProvider';
 
 
 const Login = () => {
+    const {loginUser}=use(AuthContext);
   const handleLogin = (e) => {
     e.preventDefault();
-    // Handle login logic here
+    const email=e.target.email.value;
+    const password=e.target.password.value;
+    loginUser(email ,password);
     console.log("Login submitted");
   };
 
@@ -20,6 +24,7 @@ const Login = () => {
           <div>
             <label className="block font-medium mb-1">Email address</label>
             <input
+            name='email'
               type="email"
               placeholder="Enter your email address"
               className="input input-bordered w-full"
@@ -29,13 +34,14 @@ const Login = () => {
           <div>
             <label className="block font-medium mb-1">Password</label>
             <input
+            name='password'
               type="password"
               placeholder="Enter your password"
               className="input input-bordered w-full"
               required
             />
           </div>
-          <button type="submit" className="btn btn-neutral w-full">
+          <button to='/' type="submit" className="btn btn-neutral w-full">
             Login
           </button>
         </form>
